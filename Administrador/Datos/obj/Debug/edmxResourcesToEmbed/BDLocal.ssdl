@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Empleados">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Apellido" Type="varchar" MaxLength="255" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RelacionTareaEmpleado">
+    <Key>
+      <PropertyRef Name="ID_EntityFrameWork" />
+    </Key>
+    <Property Name="FK_Tarea" Type="int" Nullable="false" />
+    <Property Name="FK_Empleado" Type="int" Nullable="false" />
+    <Property Name="ID_EntityFrameWork" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Tareas">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Fecha" Type="date" Nullable="false" />
+  </EntityType>
+  <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'db.dbo.VistaTareaEmpleado' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+  <EntityType Name="VistaTareaEmpleado">
+    <Key>
+      <PropertyRef Name="Descripcion" />
+      <PropertyRef Name="Nombre" />
+    </Key>
+    <Property Name="Descripcion" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="255" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__RelacionT__FK_Em__2A4B4B5E">
+    <End Role="Empleados" Type="Self.Empleados" Multiplicity="1" />
+    <End Role="RelacionTareaEmpleado" Type="Self.RelacionTareaEmpleado" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empleados">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="RelacionTareaEmpleado">
+        <PropertyRef Name="FK_Empleado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__RelacionT__FK_Ta__29572725">
+    <End Role="Tareas" Type="Self.Tareas" Multiplicity="1" />
+    <End Role="RelacionTareaEmpleado" Type="Self.RelacionTareaEmpleado" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tareas">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="RelacionTareaEmpleado">
+        <PropertyRef Name="FK_Tarea" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="dbModelStoreContainer">
+    <EntitySet Name="Empleados" EntityType="Self.Empleados" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RelacionTareaEmpleado" EntityType="Self.RelacionTareaEmpleado" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tareas" EntityType="Self.Tareas" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="VistaTareaEmpleado" EntityType="Self.VistaTareaEmpleado" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [VistaTareaEmpleado].[Descripcion] AS [Descripcion], 
+    [VistaTareaEmpleado].[Nombre] AS [Nombre]
+    FROM [dbo].[VistaTareaEmpleado] AS [VistaTareaEmpleado]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK__RelacionT__FK_Em__2A4B4B5E" Association="Self.FK__RelacionT__FK_Em__2A4B4B5E">
+      <End Role="Empleados" EntitySet="Empleados" />
+      <End Role="RelacionTareaEmpleado" EntitySet="RelacionTareaEmpleado" />
+    </AssociationSet>
+    <AssociationSet Name="FK__RelacionT__FK_Ta__29572725" Association="Self.FK__RelacionT__FK_Ta__29572725">
+      <End Role="Tareas" EntitySet="Tareas" />
+      <End Role="RelacionTareaEmpleado" EntitySet="RelacionTareaEmpleado" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

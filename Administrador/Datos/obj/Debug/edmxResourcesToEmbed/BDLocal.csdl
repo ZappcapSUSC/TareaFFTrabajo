@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="dbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Empleados">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Apellido" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="RelacionTareaEmpleado" Relationship="dbModel.FK__RelacionT__FK_Em__2A4B4B5E" FromRole="Empleados" ToRole="RelacionTareaEmpleado" />
+  </EntityType>
+  <EntityType Name="Tareas">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="RelacionTareaEmpleado" Relationship="dbModel.FK__RelacionT__FK_Ta__29572725" FromRole="Tareas" ToRole="RelacionTareaEmpleado" />
+  </EntityType>
+  <EntityContainer Name="dbEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Empleados" EntityType="Self.Empleados" />
+    <EntitySet Name="Tareas" EntityType="Self.Tareas" />
+    <EntitySet Name="RelacionTareaEmpleado" EntityType="dbModel.RelacionTareaEmpleado" />
+    <AssociationSet Name="FK__RelacionT__FK_Em__2A4B4B5E" Association="dbModel.FK__RelacionT__FK_Em__2A4B4B5E">
+      <End Role="Empleados" EntitySet="Empleados" />
+      <End Role="RelacionTareaEmpleado" EntitySet="RelacionTareaEmpleado" />
+    </AssociationSet>
+    <AssociationSet Name="FK__RelacionT__FK_Ta__29572725" Association="dbModel.FK__RelacionT__FK_Ta__29572725">
+      <End Role="Tareas" EntitySet="Tareas" />
+      <End Role="RelacionTareaEmpleado" EntitySet="RelacionTareaEmpleado" />
+    </AssociationSet>
+    <EntitySet Name="VistaTareaEmpleado" EntityType="dbModel.VistaTareaEmpleado" />
+  </EntityContainer>
+  <EntityType Name="RelacionTareaEmpleado">
+    <Key>
+      <PropertyRef Name="ID_EntityFrameWork" />
+    </Key>
+    <Property Name="FK_Tarea" Type="Int32" Nullable="false" />
+    <Property Name="FK_Empleado" Type="Int32" Nullable="false" />
+    <Property Name="ID_EntityFrameWork" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Empleados" Relationship="dbModel.FK__RelacionT__FK_Em__2A4B4B5E" FromRole="RelacionTareaEmpleado" ToRole="Empleados" />
+    <NavigationProperty Name="Tareas" Relationship="dbModel.FK__RelacionT__FK_Ta__29572725" FromRole="RelacionTareaEmpleado" ToRole="Tareas" />
+  </EntityType>
+  <Association Name="FK__RelacionT__FK_Em__2A4B4B5E">
+    <End Type="dbModel.Empleados" Role="Empleados" Multiplicity="1" />
+    <End Type="dbModel.RelacionTareaEmpleado" Role="RelacionTareaEmpleado" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empleados">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="RelacionTareaEmpleado">
+        <PropertyRef Name="FK_Empleado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__RelacionT__FK_Ta__29572725">
+    <End Type="dbModel.Tareas" Role="Tareas" Multiplicity="1" />
+    <End Type="dbModel.RelacionTareaEmpleado" Role="RelacionTareaEmpleado" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tareas">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="RelacionTareaEmpleado">
+        <PropertyRef Name="FK_Tarea" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="VistaTareaEmpleado">
+    <Key>
+      <PropertyRef Name="Descripcion" />
+      <PropertyRef Name="Nombre" />
+    </Key>
+    <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+</Schema>

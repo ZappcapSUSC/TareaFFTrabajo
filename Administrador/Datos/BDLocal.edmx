@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Empleados">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Apellido" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RelacionTareaEmpleado">
+          <Key>
+            <PropertyRef Name="ID_EntityFrameWork" />
+          </Key>
+          <Property Name="FK_Tarea" Type="int" Nullable="false" />
+          <Property Name="FK_Empleado" Type="int" Nullable="false" />
+          <Property Name="ID_EntityFrameWork" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tareas">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Fecha" Type="date" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'db.dbo.VistaTareaEmpleado' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="VistaTareaEmpleado">
+          <Key>
+            <PropertyRef Name="Descripcion" />
+            <PropertyRef Name="Nombre" />
+          </Key>
+          <Property Name="Descripcion" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__RelacionT__FK_Em__2A4B4B5E">
+          <End Role="Empleados" Type="Self.Empleados" Multiplicity="1" />
+          <End Role="RelacionTareaEmpleado" Type="Self.RelacionTareaEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleados">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RelacionTareaEmpleado">
+              <PropertyRef Name="FK_Empleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RelacionT__FK_Ta__29572725">
+          <End Role="Tareas" Type="Self.Tareas" Multiplicity="1" />
+          <End Role="RelacionTareaEmpleado" Type="Self.RelacionTareaEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tareas">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RelacionTareaEmpleado">
+              <PropertyRef Name="FK_Tarea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dbModelStoreContainer">
+          <EntitySet Name="Empleados" EntityType="Self.Empleados" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RelacionTareaEmpleado" EntityType="Self.RelacionTareaEmpleado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tareas" EntityType="Self.Tareas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VistaTareaEmpleado" EntityType="Self.VistaTareaEmpleado" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VistaTareaEmpleado].[Descripcion] AS [Descripcion], 
+    [VistaTareaEmpleado].[Nombre] AS [Nombre]
+    FROM [dbo].[VistaTareaEmpleado] AS [VistaTareaEmpleado]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__RelacionT__FK_Em__2A4B4B5E" Association="Self.FK__RelacionT__FK_Em__2A4B4B5E">
+            <End Role="Empleados" EntitySet="Empleados" />
+            <End Role="RelacionTareaEmpleado" EntitySet="RelacionTareaEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RelacionT__FK_Ta__29572725" Association="Self.FK__RelacionT__FK_Ta__29572725">
+            <End Role="Tareas" EntitySet="Tareas" />
+            <End Role="RelacionTareaEmpleado" EntitySet="RelacionTareaEmpleado" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Empleados">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Apellido" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="RelacionTareaEmpleado" Relationship="dbModel.FK__RelacionT__FK_Em__2A4B4B5E" FromRole="Empleados" ToRole="RelacionTareaEmpleado" />
+        </EntityType>
+        <EntityType Name="Tareas">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="RelacionTareaEmpleado" Relationship="dbModel.FK__RelacionT__FK_Ta__29572725" FromRole="Tareas" ToRole="RelacionTareaEmpleado" />
+        </EntityType>
+        <EntityContainer Name="dbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Empleados" EntityType="Self.Empleados" />
+          <EntitySet Name="Tareas" EntityType="Self.Tareas" />
+          <EntitySet Name="RelacionTareaEmpleado" EntityType="dbModel.RelacionTareaEmpleado" />
+          <AssociationSet Name="FK__RelacionT__FK_Em__2A4B4B5E" Association="dbModel.FK__RelacionT__FK_Em__2A4B4B5E">
+            <End Role="Empleados" EntitySet="Empleados" />
+            <End Role="RelacionTareaEmpleado" EntitySet="RelacionTareaEmpleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RelacionT__FK_Ta__29572725" Association="dbModel.FK__RelacionT__FK_Ta__29572725">
+            <End Role="Tareas" EntitySet="Tareas" />
+            <End Role="RelacionTareaEmpleado" EntitySet="RelacionTareaEmpleado" />
+          </AssociationSet>
+          <EntitySet Name="VistaTareaEmpleado" EntityType="dbModel.VistaTareaEmpleado" />
+        </EntityContainer>
+        <EntityType Name="RelacionTareaEmpleado">
+          <Key>
+            <PropertyRef Name="ID_EntityFrameWork" />
+          </Key>
+          <Property Name="FK_Tarea" Type="Int32" Nullable="false" />
+          <Property Name="FK_Empleado" Type="Int32" Nullable="false" />
+          <Property Name="ID_EntityFrameWork" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Empleados" Relationship="dbModel.FK__RelacionT__FK_Em__2A4B4B5E" FromRole="RelacionTareaEmpleado" ToRole="Empleados" />
+          <NavigationProperty Name="Tareas" Relationship="dbModel.FK__RelacionT__FK_Ta__29572725" FromRole="RelacionTareaEmpleado" ToRole="Tareas" />
+        </EntityType>
+        <Association Name="FK__RelacionT__FK_Em__2A4B4B5E">
+          <End Type="dbModel.Empleados" Role="Empleados" Multiplicity="1" />
+          <End Type="dbModel.RelacionTareaEmpleado" Role="RelacionTareaEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleados">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RelacionTareaEmpleado">
+              <PropertyRef Name="FK_Empleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RelacionT__FK_Ta__29572725">
+          <End Type="dbModel.Tareas" Role="Tareas" Multiplicity="1" />
+          <End Type="dbModel.RelacionTareaEmpleado" Role="RelacionTareaEmpleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tareas">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RelacionTareaEmpleado">
+              <PropertyRef Name="FK_Tarea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="VistaTareaEmpleado">
+          <Key>
+            <PropertyRef Name="Descripcion" />
+            <PropertyRef Name="Nombre" />
+          </Key>
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="dbModelStoreContainer" CdmEntityContainer="dbEntities">
+          <EntitySetMapping Name="Empleados">
+            <EntityTypeMapping TypeName="dbModel.Empleados">
+              <MappingFragment StoreEntitySet="Empleados">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tareas">
+            <EntityTypeMapping TypeName="dbModel.Tareas">
+              <MappingFragment StoreEntitySet="Tareas">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RelacionTareaEmpleado">
+            <EntityTypeMapping TypeName="dbModel.RelacionTareaEmpleado">
+              <MappingFragment StoreEntitySet="RelacionTareaEmpleado">
+                <ScalarProperty Name="ID_EntityFrameWork" ColumnName="ID_EntityFrameWork" />
+                <ScalarProperty Name="FK_Empleado" ColumnName="FK_Empleado" />
+                <ScalarProperty Name="FK_Tarea" ColumnName="FK_Tarea" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VistaTareaEmpleado">
+            <EntityTypeMapping TypeName="dbModel.VistaTareaEmpleado">
+              <MappingFragment StoreEntitySet="VistaTareaEmpleado">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
